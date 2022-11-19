@@ -136,3 +136,4 @@ GitHub.sublime-settings
 !.vscode/extensions.json 
 .history
 secrets.json
+**/migrations/*
