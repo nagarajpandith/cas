@@ -8,27 +8,16 @@ CATEGORY_CHOICES = (("D", "Desserts"), ("S", "Starters"), ("M", "Main Course"))
 # Extending Django's User model for Canteen Owner & Kitchen Staffs
 class Account(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    email = models.EmailField(max_length=254, blank=True)
     phone = models.CharField(max_length=10)
     city = models.CharField(max_length=50)
     state = models.CharField(max_length=50)
     pincode = models.CharField(max_length=6)
+    isOwner = models.BooleanField(default=False)
+    isKStaff = models.BooleanField(default=False)
 
     def __str__(self):
         return self.user.username
-
-
-# Defining signals to create a profile for a new user
-@receiver(post_save, sender=User)
-def create_user_account(sender, instance, created, **kwargs):
-    if created:
-        Account.objects.create(
-            user=instance
-        )  # Creating Account object when User object is created
-
-
-@receiver(post_save, sender=User)
-def save_user_account(sender, instance, **kwargs):
-    instance.account.save()  # Saving Account object when User object is saved
 
 
 class Item(models.Model):

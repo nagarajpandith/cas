@@ -19,9 +19,14 @@
         <button type="submit">login</button>
       </form>
 
-      {# Error message #} {% for message in messages %}
-      <p>{{message}}</p>
-      {% endfor %}
+      {# Error message #} 
+      {% if messages %}
+      <ul>
+        {% for message in messages %}
+        <li>{{message}}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
     </section>
   </body>
 </html>
