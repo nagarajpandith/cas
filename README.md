@@ -1,5 +1,19 @@
 ### CAS - DBMS Project
 
+#### Project Checklist
+
+##### High Priority
+
+- [x] login page -> verify if owner or kitchen staff
+- [ ] if owner -> 3 interfaces-> add kitchen staff, add canteen items, order items
+- [ ] if staff -> an interface listing all current orders and ability to tick them off
+- [ ] frontend for all the above
+
+##### Low Priority
+
+- [ ] handling cases with empty items
+- [ ] summary and stats of orders for owner
+
 #### Local setup
 
 - Create virtualenv
