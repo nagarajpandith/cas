@@ -1,34 +1,34 @@
 from django.db import models
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
-CATEGORY_CHOICES = (
-    ('D', 'Desserts'),
-    ('S', 'Starters'),
-    ('M', 'Main Course')
-)
+CATEGORY_CHOICES = (("D", "Desserts"), ("S", "Starters"), ("M", "Main Course"))
 
-
-class Owner(models.Model):
-    id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=100)
-    email = models.EmailField(max_length=100)
-    password = models.CharField(max_length=100)
-    phone = models.CharField(max_length=100)
-    city = models.CharField(max_length=100)
-    state = models.CharField(max_length=100)
+# Extending Django's User model for Canteen Owner & Kitchen Staffs
+class Account(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    phone = models.CharField(max_length=10)
+    city = models.CharField(max_length=50)
+    state = models.CharField(max_length=50)
     pincode = models.CharField(max_length=6)
 
     def __str__(self):
-        return self.name
+        return self.user.username
 
 
-class KitchenStaff (models.Model):
-    id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=100)
-    email = models.EmailField(max_length=100)
-    password = models.CharField(max_length=100)
+# Defining signals to create a profile for a new user
+@receiver(post_save, sender=User)
+def create_user_account(sender, instance, created, **kwargs):
+    if created:
+        Account.objects.create(
+            user=instance
+        )  # Creating Account object when User object is created
 
-    def __str__(self):
-        return self.name
+
+@receiver(post_save, sender=User)
+def save_user_account(sender, instance, **kwargs):
+    instance.account.save()  # Saving Account object when User object is saved
 
 
 class Item(models.Model):
@@ -37,7 +37,7 @@ class Item(models.Model):
     price = models.IntegerField()
     category = models.CharField(choices=CATEGORY_CHOICES, max_length=2)
     description = models.CharField(max_length=100)
-    image = models.ImageField(upload_to='images/')
+    image = models.ImageField(upload_to="images/")
     isAvailable = models.BooleanField(default=True)
 
     def __str__(self):
@@ -46,9 +46,9 @@ class Item(models.Model):
 
 class OrderItem(models.Model):
     orderItemNo = models.AutoField(primary_key=True)
-    orderid = models.ForeignKey('Order', on_delete=models.CASCADE)
+    orderid = models.ForeignKey("Order", on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
-    owner = models.ForeignKey(Owner, on_delete=models.CASCADE)
+    owner = models.ForeignKey(Account, on_delete=models.CASCADE)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -63,7 +63,7 @@ class Order(models.Model):
     totalAmount = models.FloatField()
     isCompleted = models.BooleanField(default=False)
     isPaid = models.BooleanField(default=False)
-    owner = models.ForeignKey(Owner, on_delete=models.CASCADE)
+    owner = models.ForeignKey(Account, on_delete=models.CASCADE)
     items = models.ManyToManyField(OrderItem)
 
     def __str__(self):
@@ -80,7 +80,7 @@ class Order(models.Model):
         super().save(*args, **kwargs)
 
 
-class Bill (models.Model):
+class Bill(models.Model):
     billNo = models.AutoField(primary_key=True)
     amount = models.FloatField()
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
