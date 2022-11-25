@@ -1,0 +1,27 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% tailwind_css %}
+    <title>Login | CAS</title>
+  </head>
+
+  <body>
+    {# Login form #}
+    <section>
+      <form method="POST" action="">
+        {% csrf_token %}
+        <input type="text" name="username" placeholder="Username..." />
+        <input type="password" name="password" placeholder="Password..." />
+        <button type="submit">login</button>
+      </form>
+
+      {# Error message #} {% for message in messages %}
+      <p>{{message}}</p>
+      {% endfor %}
+    </section>
+  </body>
+</html>
