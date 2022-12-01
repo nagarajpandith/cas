@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from .forms import CreateStaffForm
+from .forms import CreateItemForm
 from django.contrib.auth.decorators import user_passes_test
 from .models import Account
 from django.contrib.auth.models import User
@@ -64,3 +65,17 @@ def register(request):
 
     context = {"form": form}
     return render(request, "registerStaff.html", context)
+
+def items(request):
+    form = CreateItemForm()
+
+    if request.method=='POST':
+        form=CreateItemForm(request.POST,request.FILES)
+
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Item added successfully")
+            return redirect("items")
+            
+    context = {"form": form}
+    return render(request, "items.html", context)
