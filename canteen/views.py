@@ -106,7 +106,8 @@ def deleteItem(request,itemNo):
     if not request.user.is_authenticated:
         return redirect("login")
 
-    item=get_object_or_404(Item,itemNo=itemNo)
+    item=get_object_or_404(Item.objects,itemNo=itemNo)
+    item.delete()
     messages.success(request, "Item deleted successfully")
     return redirect("items")
 
