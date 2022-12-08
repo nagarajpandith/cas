@@ -3,8 +3,9 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from .forms import CreateStaffForm
 from django.contrib.auth.decorators import user_passes_test
-from .models import Account
+from .models import *
 from django.contrib.auth.models import User
+import uuid
 
 # Create your views here.
 def index(request):
@@ -64,3 +65,38 @@ def register(request):
 
     context = {"form": form}
     return render(request, "registerStaff.html", context)
+
+
+def order(request):
+    items = Item.objects.all()
+    context = {"items": items}
+
+    if request.method == 'POST':
+        item_ids = request.POST.getlist('item_ids')
+        quantities = request.POST.getlist('quantities')
+
+        # Create the order object and save it
+        token = 1223
+        order = Order(tokenNo=token)
+        order.save()
+
+        # Create the order items and add them to the order
+        for item_id, quantity in zip(item_ids, quantities):
+            item = Item.objects.get(itemNo=item_id)
+
+            # Check if there is an existing order item with the same quantity and item
+            order_item = OrderItem.objects.filter(item=item, quantity=quantity).first()
+
+            # If no existing order item is found, create a new one
+            if not order_item:
+                order_item = OrderItem(item=item, quantity=quantity)
+                order_item.save()
+
+            # Add the order item to the order
+            order.items.add(order_item)
+
+        # Calculate and set the total amount for the order
+        order.totalAmount = order.get_total()
+        order.save()
+
+    return render(request, "order.html", context)

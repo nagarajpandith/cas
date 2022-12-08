@@ -5,9 +5,15 @@
 ##### High Priority
 
 - [x] login page -> verify if owner or kitchen staff
-- [ ] if owner -> 3 interfaces-> add kitchen staff, add canteen items, order items
+- [ ] if owner -> 3 interfaces
+  - [x] add kitchen staff
+  - [ ] add canteen items
+  - [ ] order items
+  - [ ] generate bill
 - [ ] if staff -> an interface listing all current orders and ability to tick them off
 - [ ] frontend for all the above
+- [ ] documentation/project report (synopsis, screenshots, er diagram, schema etc.)
+- [ ] hosting
 
 ##### Low Priority
 
