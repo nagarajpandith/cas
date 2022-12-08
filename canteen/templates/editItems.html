@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     {% tailwind_css %}
-    <title>View Items | CAS</title>
+    <title>Edit Items | CAS</title>
   </head>
 
   <body>
@@ -20,19 +20,13 @@
     
     {# Show staff registration form only if user is Admin #}
     {% if request.user.is_superuser %}
-    <div>
-     {% for item in items %}
-        <div>
-            <img src="/{{ item.image }}" class="w-{10px} h-{10px}" style="width:100px;height:100px"/>
-            <div>{{item.name}}</div>
-            <div>{{item.price}}</div>
-            <div>{{item.category}}</div>
-            <div>{{item.description}}</div>
-            <a href="/deleteItem/{{item.itemNo}}">Delete</a>
-            <a href="/updateItem/{{item.itemNo}}">Update</a>
-        </div>
-    {% endfor %}
-    <div>
+    <form method="POST" action="" enctype="multipart/form-data">
+      {% csrf_token %}
+        {{form.as_p}}
+
+      <button type="submit">Submit</button>
+    </form>
+    {{form.errors}} 
     {% else %}
     <a>You are not an Administrator!</a>
     {% endif %}
