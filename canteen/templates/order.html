@@ -1,0 +1,65 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% tailwind_css %}
+    <title>Order Items | CAS</title>
+  </head>
+
+  <body>
+    {% if not items %}
+    <div class="text-center">No items available</div>
+    {% endif %}
+
+    <form action="{% url 'order' %}" method="post" enctype="multipart/form-data" onsubmit="return checkCheckboxes()">
+      {% csrf_token %} {% for item in items %}
+      <div
+        class="d-flex flex-col opacity-40 {% if item.isAvailable %} opacity-100 {% endif %}"
+      >
+        <div>{{ item.name }}</div>
+        <div>{{ item.price }}</div>
+        <div>{{ item.get_category_display }}</div>
+        <div>{{ item.description }}</div>
+        <input type="checkbox" name="item_ids" value="{{ item.itemNo }}" 
+        {% if not item.isAvailable %} disabled {% endif %} 
+        onclick="checkCheckboxes()"
+        />
+        <input type="number" name="quantities" value="1" min="1" max="{{ item.quantity }}" />
+        <div>
+          <img src="{{ item.image.url }}" alt="item-photo" width="100px" />
+        </div>
+      </div>
+      {% endfor %}
+      <button id="submit-button" type="submit">Place Order</button>
+    </form>
+  </body>
+
+  <script>
+    function checkCheckboxes() {
+      // Get all checkboxes and the submit button
+      var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+      var submitButton = document.getElementById('submit-button');
+    
+      // Check if any of the checkboxes are checked
+      var isChecked = false;
+      for (var i = 0; i < checkboxes.length; i++) {
+        if (checkboxes[i].checked) {
+          isChecked = true;
+          break;
+        }
+      }
+    
+      // Enable or disable the submit button based on whether any of the checkboxes are checked
+      if (isChecked) {
+        submitButton.disabled = false;
+      } else {
+        submitButton.disabled = true;
+      }
+    
+      return isChecked;
+    }
+    </script>
+</html>

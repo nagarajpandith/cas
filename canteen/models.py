@@ -1,9 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.db.models.signals import post_save
-from django.dispatch import receiver
 
 CATEGORY_CHOICES = (("D", "Desserts"), ("S", "Starters"), ("M", "Main Course"))
+MODE_OF_PAYMENT = (("C", "Cash"), ("O", "Online"))
 
 # Extending Django's User model for Canteen Owner & Kitchen Staffs
 class Account(models.Model):
@@ -35,9 +34,7 @@ class Item(models.Model):
 
 class OrderItem(models.Model):
     orderItemNo = models.AutoField(primary_key=True)
-    orderid = models.ForeignKey("Order", on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
-    owner = models.ForeignKey(Account, on_delete=models.CASCADE)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -52,7 +49,6 @@ class Order(models.Model):
     totalAmount = models.FloatField()
     isCompleted = models.BooleanField(default=False)
     isPaid = models.BooleanField(default=False)
-    owner = models.ForeignKey(Account, on_delete=models.CASCADE)
     items = models.ManyToManyField(OrderItem)
 
     def __str__(self):
@@ -73,6 +69,7 @@ class Bill(models.Model):
     billNo = models.AutoField(primary_key=True)
     amount = models.FloatField()
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    modeOfPayment = models.CharField(choices=MODE_OF_PAYMENT, max_length=2)
 
     def __str__(self):
         return str(self.billNo)
