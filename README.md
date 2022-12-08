@@ -73,3 +73,7 @@ pip freeze > requirements.txt
 ```
 
 - Develop on a different branch (like 'feat/home-page', 'fix/overflow-issue' for different features/bug fixes and make PR to main or a single branch for all development purposes called 'develop' and make PRs to main from there
+
+#### Attributions
+
+[Restaurant icons created by Freepik - Flaticon](https://www.flaticon.com/free-icons/restaurant)

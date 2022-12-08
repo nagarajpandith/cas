@@ -1,42 +1,25 @@
-{% load static tailwind_tags %}
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    {% tailwind_css %}
-    <title>Register Staff | CAS</title>
-  </head>
+{% extends 'layout.html' %} {% block content %} {% if messages %}
+<ul>
+  {% for message in messages %}
+  <li>{{message}}</li>
+  {% endfor %}
+</ul>
+{% endif %} {# Show staff registration form only if user is Admin #} {% if
+request.user.is_superuser %}
+<form method="POST" action="">
+  {% csrf_token %}
 
-  <body>
-    {% if messages %}
-    <ul>
-      {% for message in messages %}
-      <li>{{message}}</li>
-      {% endfor %}
-    </ul>
-    {% endif %} 
-    
-    {# Show staff registration form only if user is Admin #}
-    {% if request.user.is_superuser %}
-    <form method="POST" action="">
-      {% csrf_token %}
+  <div>username: {{form.username}}</div>
+  <div>email: {{form.email}}</div>
+  <div>phone: {{form.phone}}</div>
+  <div>city: {{form.city}}</div>
+  <div>state: {{form.state}}</div>
+  <div>pincode: {{form.pincode}}</div>
+  <div>password: {{form.password1}}</div>
+  <div>confirm password: {{form.password2}}</div>
 
-      <div>username: {{form.username}}</div>
-      <div>email: {{form.email}}</div>
-      <div>phone: {{form.phone}}</div>
-      <div>city: {{form.city}}</div>
-      <div>state: {{form.state}}</div>
-      <div>pincode: {{form.pincode}}</div>
-      <div>password: {{form.password1}}</div>
-      <div>confirm password: {{form.password2}}</div>
-
-      <button type="submit">Create Staff</button>
-    </form>
-    {{form.errors}} 
-    {% else %}
-    <a>You are not an Administrator!</a>
-    {% endif %}
-  </body>
-</html>
+  <button type="submit">Create Staff</button>
+</form>
+{{form.errors}} {% else %}
+<a>You are not an Administrator!</a>
+{% endif %} {% endblock %}
