@@ -6,11 +6,12 @@
 
 - [x] login page -> verify if owner or kitchen staff
 - [ ] if owner -> 3 interfaces
-  - [x] add kitchen staff
-  - [ ] add canteen items
+  - [x] add/register kitchen staff
+  - [x] add new canteen items
+  - [x] view, edit and delete items
   - [x] order items
   - [ ] generate bill
-- [ ] if staff -> an interface listing all current orders and ability to tick them off
+- [x] if staff -> an interface listing all current orders and ability to tick them off
 - [ ] frontend for all the above
 - [ ] documentation/project report (synopsis, screenshots, er diagram, schema etc.)
 - [ ] hosting
