@@ -71,12 +71,13 @@ def order(request):
     items = Item.objects.all()
     context = {"items": items}
 
-    if request.method == 'POST':
-        item_ids = request.POST.getlist('item_ids')
-        quantities = request.POST.getlist('quantities')
+    if request.method == "POST":
+        item_ids = request.POST.getlist("item_ids")
+        quantities = request.POST.getlist("quantities")
 
         # Create the order object and save it
-        token = 1223
+        token = int(str(uuid.uuid4().int)[:3])
+        print(token)
         order = Order(tokenNo=token)
         order.save()
 
@@ -84,13 +85,13 @@ def order(request):
         for item_id, quantity in zip(item_ids, quantities):
             item = Item.objects.get(itemNo=item_id)
 
-            # Check if there is an existing order item with the same quantity and item
-            order_item = OrderItem.objects.filter(item=item, quantity=quantity).first()
+            # Get the queryset of order items with the same item
+            order_items = OrderItem.objects.filter(item=item)
 
-            # If no existing order item is found, create a new one
-            if not order_item:
-                order_item = OrderItem(item=item, quantity=quantity)
-                order_item.save()
+            # Update the quantity of the existing order item, or create a new one
+            order_item, created = order_items.update_or_create(
+                defaults={"quantity": quantity}, item=item
+            )
 
             # Add the order item to the order
             order.items.add(order_item)

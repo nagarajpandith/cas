@@ -8,7 +8,7 @@
 - [ ] if owner -> 3 interfaces
   - [x] add kitchen staff
   - [ ] add canteen items
-  - [ ] order items
+  - [x] order items
   - [ ] generate bill
 - [ ] if staff -> an interface listing all current orders and ability to tick them off
 - [ ] frontend for all the above

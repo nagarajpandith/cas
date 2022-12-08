@@ -1,7 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.db.models.signals import post_save
-from django.dispatch import receiver
 
 CATEGORY_CHOICES = (("D", "Desserts"), ("S", "Starters"), ("M", "Main Course"))
 MODE_OF_PAYMENT = (("C", "Cash"), ("O", "Online"))
@@ -47,7 +45,7 @@ class OrderItem(models.Model):
 
 
 class Order(models.Model):
-    tokenNo = models.AutoField(primary_key=True)
+    tokenNo = models.IntegerField(primary_key=True)
     totalAmount = models.FloatField()
     isCompleted = models.BooleanField(default=False)
     isPaid = models.BooleanField(default=False)
