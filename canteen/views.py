@@ -110,6 +110,7 @@ def deleteItem(request, itemNo):
 
     item=get_object_or_404(Item.objects,itemNo=itemNo)
     item.delete()
+
     messages.success(request, "Item deleted successfully")
     return redirect("items")
 
