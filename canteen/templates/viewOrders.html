@@ -1,0 +1,40 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% tailwind_css %}
+    <title>View Orders | CAS</title>
+  </head>
+
+  <body>
+    <form action="{% url 'markCompleted' %}" method="post" id="mark-order-completed-form">
+        {% csrf_token %}
+    <ul>
+      {% for order in orders %} {% if order.isPaid and not order.isCompleted %}
+      <li>Token: {{ order.tokenNo }}</li>
+      <input type="checkbox" name="order_ids" value="{{ order.tokenNo }}" onclick="submitForm()" />
+      <ul>
+        {% for order_item in order.items.all %}
+        <li>
+          Item: {{ order_item.item.name }} - Quantity: {{ order_item.quantity }}
+        </li>
+        {% endfor %}
+      </ul>
+      {% endif %} {% endfor %}
+    </ul>
+  </body>
+
+  <script>
+    function submitForm() {
+      // Get the form element with the id attribute set to "mark-order-completed-form"
+      var form = document.getElementById("mark-order-completed-form");
+  
+      // Submit the form
+      form.submit();
+    }
+  </script>
+
+</html>
