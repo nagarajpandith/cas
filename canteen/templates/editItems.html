@@ -1,0 +1,34 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% tailwind_css %}
+    <title>Edit Items | CAS</title>
+  </head>
+
+  <body>
+    {% if messages %}
+    <ul>
+      {% for message in messages %}
+      <li>{{message}}</li>
+      {% endfor %}
+    </ul>
+    {% endif %} 
+    
+    {# Show staff registration form only if user is Admin #}
+    {% if request.user.is_superuser %}
+    <form method="POST" action="" enctype="multipart/form-data">
+      {% csrf_token %}
+        {{form.as_p}}
+
+      <button type="submit">Submit</button>
+    </form>
+    {{form.errors}} 
+    {% else %}
+    <a>You are not an Administrator!</a>
+    {% endif %}
+  </body>
+</html>
