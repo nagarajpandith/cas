@@ -1,10 +1,11 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from .forms import CreateStaffForm
 from .forms import CreateItemForm
 from django.contrib.auth.decorators import user_passes_test
 from .models import Account
+from .models import Item
 from django.contrib.auth.models import User
 
 # Create your views here.
@@ -66,7 +67,7 @@ def register(request):
     context = {"form": form}
     return render(request, "registerStaff.html", context)
 
-def items(request):
+def addItems(request):
     form = CreateItemForm()
 
     if request.method=='POST':
@@ -75,7 +76,33 @@ def items(request):
         if form.is_valid():
             form.save()
             messages.success(request, "Item added successfully")
-            return redirect("items")
+            return redirect("addItems")
             
     context = {"form": form}
+    return render(request, "editItems.html", context)
+
+def updateItem(request,itemNo):
+    item=Item.objects.get(itemNo=itemNo)
+    form=CreateItemForm(instance=item)
+
+    if request.method=='POST':
+        form=CreateItemForm(request.POST,request.FILES,instance=item)
+
+        if form.is_valid():
+            form.save()
+        messages.success(request, "Item modified successfully")
+        return redirect("items")
+
+            
+    context = {"form": form}
+    return render(request, "editItems.html", context)
+
+def deleteItem(request,itemNo):
+    item=get_object_or_404(Item,itemNo=itemNo)
+    messages.success(request, "Item deleted successfully")
+    return redirect("items")
+
+def items(request):
+    items=Item.objects.all()
+    context={'items':items}
     return render(request, "items.html", context)
