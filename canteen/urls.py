@@ -13,4 +13,6 @@ urlpatterns = [
     path("deleteItem/<int:itemNo>", views.deleteItem, name="deleteItem"),
     path("items/", views.items, name="items"),
     path("order/", views.order, name="order"),
+    path("viewOrders/", views.viewOrders, name="viewOrders"),
+    path("markCompleted/", views.markCompleted, name="markCompleted"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

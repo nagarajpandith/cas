@@ -156,3 +156,27 @@ def order(request):
         order.save()
 
     return render(request, "order.html", context)
+
+
+def viewOrders(request):
+    if not request.user.is_authenticated:
+        return redirect("login")
+
+    orders = Order.objects.all()
+    context = {"orders": orders}
+    return render(request, "viewOrders.html", context)
+
+def markCompleted(request):
+    # Get the list of order ids from the request
+    order_ids = request.POST.getlist("order_ids")
+
+    # Iterate over the order ids
+    for order_id in order_ids:
+        # Get the Order object with the specified id
+        order = Order.objects.get(tokenNo=order_id)
+
+        # Update the isCompleted field of the Order object
+        Order.objects.filter(tokenNo=order_id).update(isCompleted=True)
+
+    # Redirect to the orders page
+    return redirect("viewOrders")
