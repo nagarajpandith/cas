@@ -1,0 +1,93 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% tailwind_css %}
+    <title>
+      {% block title %} Canteen Automation System {% endblock title %}
+    </title>
+  </head>
+
+  <style>
+    @media (max-width: 640px) {
+      nav {
+        flex-direction: column;
+      }
+      nav div {
+        width: 100%;
+        text-align: center;
+      }
+      nav button {
+        margin-top: 8px;
+      }
+    }
+  </style>
+
+  <body>
+    <nav class="flex justify-between items-center p-5">
+      <div class="w-1/4 text-lg font-bold">
+        <div class="flex flex-row">
+          <div>
+            <a href="{% url 'home' %}" class="text-red-500 hover:text-red-800">
+              <img
+                src="{% static 'logo/restaurant.png' %}"
+                alt="logo"
+                width="100"
+              />
+            </a>
+          </div>
+          <div>
+            <h1 class="text-2xl font-bold">CAS</h1>
+          </div>
+        </div>
+      </div>
+      {% if user.is_superuser %}
+      <div class="w-1/6 text-lg font-bold">
+        <a href="{% url 'register' %}" class="text-red-500 hover:text-red-800"
+          >Register Staff</a
+        >
+      </div>
+      <div class="w-1/6 text-lg font-bold">
+        <a href="{% url 'order' %}" class="text-red-500 hover:text-red-800"
+          >Order</a
+        >
+      </div>
+      <div class="w-1/6 text-lg font-bold">
+        <a href="{% url 'items' %}" class="text-red-500 hover:text-red-800"
+          >View Items</a
+        >
+      </div>
+      <div class="w-1/6 text-lg font-bold">
+        <a href="{% url 'addItems' %}" class="text-red-500 hover:text-red-800"
+          >Add Items</a
+        >
+      </div>
+      {% else %} {% if user.is_authenticated %}
+      <div class="w-1/6 text-lg font-bold">
+        <a href="{% url 'viewOrders' %}" class="text-red-500 hover:text-red-800"
+          >View Orders</a
+        >
+      </div>
+      {% endif %} {% endif %}
+      <div class="w-1/6 text-lg font-bold">
+        {% if user.is_authenticated %}
+        <button
+          class="px-4 py-2 bg-red-500 hover:bg-red-800 text-white font-bold rounded-full"
+        >
+          <a href="logout/">Logout</a>
+        </button>
+        {% else %}
+        <button
+          class="px-4 py-2 bg-red-500 hover:bg-red-800 text-white font-bold rounded-full"
+        >
+          <a href="login/">Login</a>
+        </button>
+        {% endif %}
+      </div>
+    </nav>
+    {% block content %} {% endblock content %}
+  </body>
+</html>
