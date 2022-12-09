@@ -7,7 +7,7 @@
   id="mark-order-completed-form"
 >
   {% csrf_token %}
-  <ul class="flex flex-col justify-center w-1/4 mx-auto">
+  <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
     {% for order in orders %} 
     {% if order.isPaid and not order.isCompleted %}
     <div class="border shadow-lg m-5 p-10">

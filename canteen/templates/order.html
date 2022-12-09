@@ -10,9 +10,10 @@
   enctype="multipart/form-data"
   onsubmit="return checkCheckboxes()"
 >
+<div class="grid grid-cols-1 lg:grid-cols-3">
   {% csrf_token %} {% for item in items %}
   <div
-    class="shadow-lg border w-1/4 d-flex flex-col mx-auto p-10 rounded-2xl m-5 opacity-40 {% if item.isAvailable %} opacity-100 {% endif %}"
+    class="shadow-lg border mx-auto p-10 rounded-2xl m-5 opacity-40 {% if item.isAvailable %} opacity-100 {% endif %}"
   >
   <div class="flex justify-center p-4">
     <img src="{{ item.image.url }}" alt="item-photo" width="100px" />
@@ -43,6 +44,7 @@
   </div>
   </div>
   {% endfor %}
+</div>
   <div class="flex justify-center">
   <button class="mt-3 mb-5 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" id="submit-button" type="submit">Place Order</button>
   </div>
