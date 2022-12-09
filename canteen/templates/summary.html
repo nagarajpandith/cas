@@ -1,0 +1,16 @@
+{% extends 'layout.html' %} 
+{% block title %} View Orders | CAS {% endblock title %}
+{% block content %}
+{% if request.user.is_superuser %}
+  <div>Total amount earned {{amount.sum}}</div>
+ {% for item in items %}
+ <div class="flex flex-row">
+ <div>ITEM Name: {{item.item__name}}</div>
+ <div>ordered: {{item.sum}} times</div>
+ </div>
+ {% endfor %}
+
+{% else %}
+<a>You are not an Administrator!</a>
+{% endif %} 
+{% endblock %}

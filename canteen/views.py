@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import user_passes_test
 from .models import *
 from django.contrib.auth.models import User
 import uuid
+from django.db.models import Sum
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.hashers import check_password
 from reportlab.pdfgen import canvas
@@ -261,3 +262,14 @@ def billing(request, tokenNo):
 
     context = {"orders": orders}
     return render(request, "billing.html", context)
+
+def summary(request):
+
+    if not request.user.is_authenticated:
+        return redirect("login")
+
+    items_sorted=OrderItem.objects.select_related('item').values('item','item__name').all().annotate(sum=Sum('quantity')).order_by('-sum')
+    amount=Order.objects.filter(isPaid=True).aggregate(sum=Sum('totalAmount'))
+
+    context={'items':items_sorted,'amount':amount}
+    return render(request, "summary.html",context)
