@@ -7,8 +7,11 @@
   id="mark-order-completed-form"
 >
   {% csrf_token %}
-  <ul>
-    {% for order in orders %} {% if order.isPaid and not order.isCompleted %}
+  <ul class="flex flex-col justify-center w-1/4 mx-auto">
+    {% for order in orders %} 
+    {% if order.isPaid and not order.isCompleted %}
+    <div class="border shadow-lg m-5 p-10">
+      <div class="flex justify-between">
     <li>Token: {{ order.tokenNo }}</li>
     <input
       type="checkbox"
@@ -16,6 +19,7 @@
       value="{{ order.tokenNo }}"
       onclick="submitForm()"
     />
+      </div>
     <ul>
       {% for order_item in order.items.all %}
       <li>
@@ -23,6 +27,7 @@
       </li>
       {% endfor %}
     </ul>
+  </div>
     {% endif %} {% endfor %}
   </ul>
 

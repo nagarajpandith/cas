@@ -1,10 +1,9 @@
 {% extends 'layout.html' %} {% block title %} Billing | CAS {% endblock title %}
 {% block content %}
-<div>
-  <h1>Billing</h1>
-
+<div class="flex flex-col border w-auto mx-auto my-5 p-10 lg:w-1/2">
   {% for order in orders %}
-  <h2>Order #{{ order.tokenNo }}</h2>
+  <div class="mx-auto text-center">
+  <h2 class="text-2xl font-bold text-red-500">Order #{{ order.tokenNo }}</h2>
 
   <ul>
     {% for order_item in order.items.all %}
@@ -14,8 +13,9 @@
     {% endfor %}
   </ul>
 
-  <p>Total: {{ order.totalAmount }}</p>
-  <form method="POST">
+  <p class="text-xl font-bold">Total: {{ order.totalAmount }}</p>
+</div>
+  <form method="POST" class="flex flex-col border w-auto mx-auto my-5 p-10 lg:w-1/2 gap-5">
     {% csrf_token %}
     <select name="modeOfPayment">
       <option value="C">Cash</option>
@@ -26,7 +26,7 @@
       name="password"
       placeholder="Enter password to proceed"
     />
-    <button type="submit">Pay</button>
+    <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">Pay</button>
   </form>
   {% if messages %}
   <ul>
