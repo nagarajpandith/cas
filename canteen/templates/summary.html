@@ -1,14 +1,22 @@
 {% extends 'layout.html' %} 
+{% load static %}
 {% block title %} View Orders | CAS {% endblock title %}
 {% block content %}
 {% if request.user.is_superuser %}
-  <div>Total amount earned {{amount.sum}}</div>
+<div class="flex flex-row border w-auto mx-auto my-5 p-10 lg:w-1/2 justify-between">
+  <div>
+  <div class="text-2xl font-bold text-red-500">Total amount earned {{amount.sum}}</div>
  {% for item in items %}
- <div class="flex flex-row">
- <div>ITEM Name: {{item.item__name}}</div>
- <div>ordered: {{item.sum}} times</div>
- </div>
- {% endfor %}
+  <div class="flex flex-row text-xl">
+    <div>{{item.item__name}}</div>
+    <div>&nbsp;ordered {{item.sum}} times</div>
+  </div>
+  {% endfor %}
+  </div>
+  <div>
+    <img src={% static 'media/summary.svg' %} width="100px" />
+  </div>
+</div>
 
 {% else %}
 <a>You are not an Administrator!</a>
