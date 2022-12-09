@@ -15,5 +15,6 @@ urlpatterns = [
     path("order/", views.order, name="order"),
     path("viewOrders/", views.viewOrders, name="viewOrders"),
     path("markCompleted/", views.markCompleted, name="markCompleted"),
-    path("billing/<int:tokenNo>", views.billing, name="billing"),
+    path("billing/<int:tokenNo>", views.billing, name="billing"), 
+    path("summary", views.summary, name="summary"), 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

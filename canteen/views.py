@@ -8,6 +8,7 @@ from .models import *
 from django.contrib.auth.models import User
 import uuid
 from django.http import HttpResponseRedirect
+from django.db.models import Sum
 
 # Create your views here.
 def index(request):
@@ -199,3 +200,14 @@ def billing(request, tokenNo):
     orders = Order.objects.filter(tokenNo=tokenNo)
     context = {"orders": orders}
     return render(request, "billing.html", context)
+
+def summary(request):
+
+    if not request.user.is_authenticated:
+        return redirect("login")
+
+    items_sorted=OrderItem.objects.select_related('item').values('item','item__name').all().annotate(sum=Sum('quantity')).order_by('-sum')
+    amount=Order.objects.filter(isPaid=True).aggregate(sum=Sum('totalAmount'))
+
+    context={'items':items_sorted,'amount':amount}
+    return render(request, "summary.html",context)
