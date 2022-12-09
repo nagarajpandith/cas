@@ -7,7 +7,9 @@ from django.contrib.auth.decorators import user_passes_test
 from .models import *
 from django.contrib.auth.models import User
 import uuid
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
+from django.contrib.auth.hashers import check_password
+from reportlab.pdfgen import canvas
 
 # Create your views here.
 def index(request):
@@ -132,8 +134,10 @@ def order(request):
         item_ids = request.POST.getlist("item_ids")
         quantities = request.POST.getlist("quantities")
 
-        # Create the order object and save it
+        # Generate a new token and check if it is already in use
         token = int(str(uuid.uuid4().int)[:3])
+        while Order.objects.filter(tokenNo=token).exists():
+            token = int(str(uuid.uuid4().int)[:3])
         order = Order(tokenNo=token)
         order.save()
 
@@ -192,10 +196,68 @@ def billing(request, tokenNo):
     if not request.user.is_authenticated:
         return redirect("login")
 
-    # Get the Order object with the specified tokenNo
-    order = get_object_or_404(Order, tokenNo=tokenNo)
-
     # Create a queryset with only the specified Order object
     orders = Order.objects.filter(tokenNo=tokenNo)
+    modeOfPayment = ""
+    if request.method == "POST":
+        modeOfPayment = request.POST.get("modeOfPayment")
+        password = request.POST.get("password")
+
+        # Check if the entered password is correct
+        if check_password(password, request.user.password):
+            order = orders.first()
+            order.modeOfPayment = modeOfPayment
+            order.isPaid = True
+            order.save()
+
+            # Generate a bill for the order
+            bill = Bill.objects.create(amount=order.totalAmount, order=order)
+
+            bill.save()
+            # Create a canvas and set the font size
+            c = canvas.Canvas("invoice.pdf")
+            c.setFontSize(24)
+
+            # Write the invoice header
+            c.drawString(100, 750, "Invoice" + str(order.tokenNo))
+
+            # Set the font size for the table
+            c.setFontSize(14)
+
+            # Write the table headers
+            c.drawString(100, 725, "Item")
+            c.drawString(250, 725, "Quantity")
+            c.drawString(350, 725, "Total Amount")
+
+            # Set the font size for the table rows
+            c.setFontSize(12)
+
+            # Write the table rows
+            y = 700
+            for order_item in order.items.all():
+                c.drawString(100, y, order_item.item.name)
+                c.drawString(250, y, str(order_item.quantity))
+                y -= 25
+
+            # Write the total amount
+            c.drawString(100, y, "Total Amount")
+            c.drawString(350, y, str(order.totalAmount))
+
+            # Write the mode of payment
+            c.drawString(100, y - 25, "Mode of Payment")
+            c.drawString(350, y - 25, order.get_modeOfPayment_display())
+
+            # Save the PDF
+            c.save()
+
+            # Read the generated PDF and send it as response
+            with open("invoice.pdf", "rb") as pdf:
+                response = HttpResponse(pdf.read(), content_type="application/pdf")
+                response["Content-Disposition"] = "attachment; filename=invoice.pdf"
+                return response
+        else:
+            messages.error(request, "Incorrect password")
+            return redirect("billing", tokenNo=tokenNo)
+
     context = {"orders": orders}
     return render(request, "billing.html", context)
