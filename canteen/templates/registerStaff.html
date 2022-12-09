@@ -11,14 +11,7 @@
 <form method="POST" action="" class="flex flex-col border w-[50%] mx-auto p-10">
   {% csrf_token %}
 
-  <div>username: {{form.username}}</div>
-  <div>email: {{form.email}}</div>
-  <div>phone: {{form.phone}}</div>
-  <div>city: {{form.city}}</div>
-  <div>state: {{form.state}}</div>
-  <div>pincode: {{form.pincode}}</div>
-  <div>password: {{form.password1}}</div>
-  <div>confirm password: {{form.password2}}</div>
+  {{form.as_table}}
 
   <button type="submit">Create Staff</button>
 </form>
