@@ -27,20 +27,23 @@
   </style>
 
   <body>
-    <nav class="flex justify-between items-center p-5">
+    <nav class="flex justify-between items-center p-5 shadow-md">
       <div class="w-1/4 text-lg font-bold">
         <div class="flex flex-row">
-          <div>
+          <div class="hidden md:block">
             <a href="{% url 'home' %}" class="text-red-500 hover:text-red-800">
               <img
-                src="{% static 'logo/restaurant.png' %}"
+                src="{% static 'media/canteen.png' %}"
                 alt="logo"
-                width="100"
+                width="40px"
+                height="40px"
               />
             </a>
           </div>
-          <div>
-            <h1 class="text-2xl font-bold">CAS</h1>
+          <div class="inline-flex items-center ml-4">
+            <a href="{% url 'home' %}">
+              <h1 class="text-2xl font-bold text-red-500">CAS</h1>
+            </a>
           </div>
         </div>
       </div>
@@ -77,13 +80,13 @@
         <button
           class="px-4 py-2 bg-red-500 hover:bg-red-800 text-white font-bold rounded-full"
         >
-          <a href="logout/">Logout</a>
+          <a href="{% url 'logout' %}">Logout</a>
         </button>
         {% else %}
         <button
           class="px-4 py-2 bg-red-500 hover:bg-red-800 text-white font-bold rounded-full"
         >
-          <a href="login/">Login</a>
+          <a href="{% url 'login' %}">Login</a>
         </button>
         {% endif %}
       </div>

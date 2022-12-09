@@ -1,7 +1,8 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
-from .models import Item
+from .models import *
+
 
 class CreateStaffForm(UserCreationForm):
     phone = forms.CharField(max_length=10)
@@ -22,8 +23,9 @@ class CreateStaffForm(UserCreationForm):
             "pincode",
         ]
 
+
 class CreateItemForm(forms.ModelForm):
     class Meta:
         model = Item
-        fields='__all__'
-        enctype="multipart/form-data"
+        fields = "__all__"
+        enctype = "multipart/form-data"

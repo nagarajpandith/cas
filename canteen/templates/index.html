@@ -1,8 +1,39 @@
-{% extends 'layout.html' %} {% block content %}
-<div>
-  <a>hello, {{request.user}}</a>
-  <button>
-    <a href="/logout"> logout </a>
-  </button>
+{% extends 'layout.html' %} {% block content %} {% load static %}
+<div
+  class="h-screen flex px-6 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-40"
+>
+  <div class="max-w-xl sm:mx-auto lg:max-w-2xl">
+    <div class="flex flex-col mb-16 sm:text-center sm:mb-0">
+      <a href="/" class="mb-6 sm:mx-auto">
+        <div
+          class="flex items-center justify-center w-60 h-60 rounded-full bg-red-50"
+        >
+          <img
+            src="{% static 'media/canteen.png' %}"
+            alt="logo"
+            class="w-40 h-40"
+          />
+        </div>
+      </a>
+      <div
+        class="max-w-xl mb-10 md:mx-auto sm:text-center lg:max-w-2xl md:mb-12"
+      >
+        <h2
+          class="max-w-lg mb-6 font-sans font-bold leading-none tracking-tight text-gray-900 md:mx-auto"
+        >
+          {% comment %} {% if user.is_authenticated %}
+          <div class="mb-3 text-xl">Hello {{request.user}}, Welcome to</div>
+          {% endif %} {% endcomment %}
+          <span class="relative inline-block text-3xl sm:text-4xl">
+            Canteen Automation System
+          </span>
+        </h2>
+        <p class="text-base text-gray-700 md:text-lg">
+          Automated Canteen System to facilitate ordering, adding and completing
+          orders.
+        </p>
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock %}
