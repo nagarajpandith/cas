@@ -1,4 +1,6 @@
-{% extends 'layout.html' %} {% block content %} {% if not items %}
+{% extends 'layout.html' %} 
+{% block title %} Order | CAS {% endblock title %}
+{% block content %} {% if not items %}
 <div class="text-center">No items available</div>
 {% endif %}
 
