@@ -22,15 +22,9 @@
       type="checkbox"
       name="item_ids"
       value="{{ item.itemNo }}"
-      {%
-      if
-      not
-      item.isAvailable
-      %}
+      {% if not item.isAvailable %}
       disabled
-      {%
-      endif
-      %}
+      {% endif %}
       onclick="checkCheckboxes()"
     />
     <input

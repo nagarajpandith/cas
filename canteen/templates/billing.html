@@ -1,0 +1,20 @@
+{% extends 'layout.html' %} {% block title %} Billing | CAS {% endblock title %}
+{% block content %}
+<div>
+  <h1>Billing</h1>
+
+  {% for order in orders %}
+  <h2>Order #{{ order.tokenNo }}</h2>
+
+  <ul>
+    {% for order_item in order.items.all %}
+    <li>
+      {{ order_item.item.name }} x {{ order_item.quantity }}: {{ order_item.totalAmount }}
+    </li>
+    {% endfor %}
+  </ul>
+
+  <p>Total: {{ order.totalAmount }}</p>
+  {% endfor %}
+</div>
+{% endblock %}

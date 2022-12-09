@@ -36,12 +36,17 @@ class OrderItem(models.Model):
     orderItemNo = models.AutoField(primary_key=True)
     quantity = models.IntegerField(default=1)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    totalAmount = models.FloatField()
 
     def __str__(self):
         return f"{self.quantity}"
 
     def get_total_item_price(self):
-        return self.quantity * self.item.price
+        return int(self.quantity) * int(self.item.price)
+
+    def save(self, *args, **kwargs):
+        self.totalAmount = self.get_total_item_price()
+        super().save(*args, **kwargs)
 
 
 class Order(models.Model):
@@ -50,6 +55,10 @@ class Order(models.Model):
     isCompleted = models.BooleanField(default=False)
     isPaid = models.BooleanField(default=False)
     items = models.ManyToManyField(OrderItem)
+    completedBy = models.ForeignKey(
+        Account, on_delete=models.CASCADE, null=True, blank=True
+    )
+    modeOfPayment = models.CharField(choices=MODE_OF_PAYMENT, max_length=2)
 
     def __str__(self):
         return str(self.tokenNo)
@@ -69,7 +78,7 @@ class Bill(models.Model):
     billNo = models.AutoField(primary_key=True)
     amount = models.FloatField()
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
-    modeOfPayment = models.CharField(choices=MODE_OF_PAYMENT, max_length=2)
+    
 
     def __str__(self):
         return str(self.billNo)

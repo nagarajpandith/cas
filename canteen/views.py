@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import user_passes_test
 from .models import *
 from django.contrib.auth.models import User
 import uuid
+from django.http import HttpResponseRedirect
 
 # Create your views here.
 def index(request):
@@ -109,6 +110,7 @@ def deleteItem(request, itemNo):
         return redirect("login")
 
     item = get_object_or_404(Item, itemNo=itemNo)
+    item.delete()
     messages.success(request, "Item deleted successfully")
     return redirect("items")
 
@@ -132,7 +134,6 @@ def order(request):
 
         # Create the order object and save it
         token = int(str(uuid.uuid4().int)[:3])
-        print(token)
         order = Order(tokenNo=token)
         order.save()
 
@@ -154,6 +155,7 @@ def order(request):
         # Calculate and set the total amount for the order
         order.totalAmount = order.get_total()
         order.save()
+        return HttpResponseRedirect("/billing/{}".format(token))
 
     return render(request, "order.html", context)
 
@@ -166,6 +168,7 @@ def viewOrders(request):
     context = {"orders": orders}
     return render(request, "viewOrders.html", context)
 
+
 def markCompleted(request):
     # Get the list of order ids from the request
     order_ids = request.POST.getlist("order_ids")
@@ -174,9 +177,25 @@ def markCompleted(request):
     for order_id in order_ids:
         # Get the Order object with the specified id
         order = Order.objects.get(tokenNo=order_id)
-
+        # Get the Account instance that corresponds to the current user
+        account = Account.objects.get(user=request.user)
         # Update the isCompleted field of the Order object
-        Order.objects.filter(tokenNo=order_id).update(isCompleted=True)
+        Order.objects.filter(tokenNo=order_id).update(
+            isCompleted=True, completedBy=account
+        )
 
     # Redirect to the orders page
     return redirect("viewOrders")
+
+
+def billing(request, tokenNo):
+    if not request.user.is_authenticated:
+        return redirect("login")
+
+    # Get the Order object with the specified tokenNo
+    order = get_object_or_404(Order, tokenNo=tokenNo)
+
+    # Create a queryset with only the specified Order object
+    orders = Order.objects.filter(tokenNo=tokenNo)
+    context = {"orders": orders}
+    return render(request, "billing.html", context)
