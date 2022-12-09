@@ -78,7 +78,6 @@ class Bill(models.Model):
     billNo = models.AutoField(primary_key=True)
     amount = models.FloatField()
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
-    
 
     def __str__(self):
         return str(self.billNo)

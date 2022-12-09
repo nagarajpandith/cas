@@ -4,7 +4,7 @@
 *.pyc
 __pycache__
 db.sqlite3
-media
+static/media/images
 
 # Backup files # 
 *.bak 
@@ -138,3 +138,4 @@ GitHub.sublime-settings
 secrets.json
 **/migrations/*
 .vscode
+*invoice*

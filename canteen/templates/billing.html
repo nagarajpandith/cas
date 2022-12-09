@@ -15,6 +15,26 @@
   </ul>
 
   <p>Total: {{ order.totalAmount }}</p>
+  <form method="POST">
+    {% csrf_token %}
+    <select name="modeOfPayment">
+      <option value="C">Cash</option>
+      <option value="O">Online</option>
+    </select>
+    <input
+      type="password"
+      name="password"
+      placeholder="Enter password to proceed"
+    />
+    <button type="submit">Pay</button>
+  </form>
+  {% if messages %}
+  <ul>
+      {% for message in messages %}
+      <li> {{ message }} </li>
+      {% endfor %}
+  </ul>
+  {% endif %}
   {% endfor %}
 </div>
 {% endblock %}
