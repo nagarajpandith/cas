@@ -26,8 +26,7 @@ python -m pip install django-tailwind
 
 ```env
 SECRET_KEY=
-DB_PASSWORD=
-DB_USER=
+DATABASE_URL=
 ```
 
 - Make migrations
@@ -64,4 +63,5 @@ pip freeze > requirements.txt
 
 #### Attributions
 
-[Restaurant icons created by Freepik - Flaticon](https://www.flaticon.com/free-icons/restaurant)
+- [Restaurant icons created by Freepik - Flaticon](https://www.flaticon.com/free-icons/restaurant)
+- [Django + Postgres Deployment guide](https://devpress.csdn.net/postgresql/62f4d8b8c6770329307fa54e.html)
