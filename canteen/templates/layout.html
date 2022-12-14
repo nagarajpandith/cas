@@ -69,6 +69,11 @@
           >Add Items</a
         >
       </div>
+      <div class="w-1/6 text-lg font-bold">
+        <a href="{% url 'summary' %}" class="text-red-500 hover:text-red-800"
+          >Summary</a
+        >
+      </div>
       {% else %} {% if user.is_authenticated %}
       <div class="w-1/6 text-lg font-bold">
         <a href="{% url 'viewOrders' %}" class="text-red-500 hover:text-red-800"
