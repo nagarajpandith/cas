@@ -25,7 +25,7 @@ class Item(models.Model):
     price = models.IntegerField()
     category = models.CharField(choices=CATEGORY_CHOICES, max_length=2)
     description = models.CharField(max_length=100)
-    image = models.ImageField(upload_to="")
+    image = models.ImageField(upload_to="media")
     isAvailable = models.BooleanField(default=True)
 
     def __str__(self):

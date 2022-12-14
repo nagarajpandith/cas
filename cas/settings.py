@@ -29,11 +29,9 @@ load_dotenv(os.path.join(BASE_DIR, ".env"))
 SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = [
-    "cas.up.railway.app" "192.168.0.1" "104.196.232.237",
-]
+ALLOWED_HOSTS = ["cas.up.railway.app" "192.168.0.1" "104.196.232.237", "127.0.0.1"]
 
 
 # Application definition
@@ -132,10 +130,13 @@ STATIC_URL = "static/"
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+if DEBUG:
+    STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
+else:
+    STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
 
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = "/media/"
-MEDIA_ROOT = os.path.join(BASE_DIR, "static", "media")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -144,7 +145,8 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 TAILWIND_APP_NAME = "theme"
 INTERNAL_IPS = [
     "127.0.0.1",
-    "192.168.0.1" "104.196.232.237",
+    "192.168.0.1",
+    "104.196.232.237",
 ]
 NPM_BIN_PATH = r"/usr/local/bin/npm"
 CSRF_TRUSTED_ORIGINS = ["https://cas.up.railway.app", "https://*.127.0.0.1"]
