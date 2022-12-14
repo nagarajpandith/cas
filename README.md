@@ -1,26 +1,5 @@
 ### CAS - DBMS Project
 
-#### Project Checklist
-
-##### High Priority
-
-- [x] login page -> verify if owner or kitchen staff
-- [ ] if owner -> 3 interfaces
-  - [x] add/register kitchen staff
-  - [x] add new canteen items
-  - [x] view, edit and delete items
-  - [x] order items
-  - [ ] generate bill
-- [x] if staff -> an interface listing all current orders and ability to tick them off
-- [ ] frontend for all the above
-- [ ] documentation/project report (synopsis, screenshots, er diagram, schema etc.)
-- [ ] hosting
-
-##### Low Priority
-
-- [ ] handling cases with empty items
-- [ ] summary and stats of orders for owner
-
 #### Local setup
 
 - Create virtualenv
@@ -36,15 +15,19 @@
   pip install -r requirements.txt
 ```
 
-- Start a postgres database called 'cas' on default port (5432)
-- Create `secrets.json` inside cas/ folder
+- Install django-tailwind
 
-```json
-{
-  "SECRET_KEY": "",
-  "DB_PASSWORD": "",
-  "DB_USER": ""
-}
+```bash
+python -m pip install django-tailwind
+```
+
+- Start a postgres database called 'cas' on default port (5432)
+- Create `.env` in root folder and add the following
+
+```env
+SECRET_KEY=
+DB_PASSWORD=
+DB_USER=
 ```
 
 - Make migrations
@@ -66,6 +49,10 @@
 python manage.py runserver
 python manage.py tailwind start
 ```
+
+#### Development Notes
+
+- Modify npm bin path (only if you're using Windows). Currently it is set to `NPM_BIN_PATH = '/usr/local/bin/npm'` for Mac & Linux based systems. If you're using Windows, you need to change it to `NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd"` in settings.py of cas project. Do not stage settings.py while pushing to repo.
 
 - If you add install any package during development, add it to requirements.txt by
 
