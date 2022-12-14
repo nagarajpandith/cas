@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from cloudinary.models import CloudinaryField
 
 CATEGORY_CHOICES = (("D", "Desserts"), ("S", "Starters"), ("M", "Main Course"))
 MODE_OF_PAYMENT = (("C", "Cash"), ("O", "Online"))
@@ -25,7 +26,7 @@ class Item(models.Model):
     price = models.IntegerField()
     category = models.CharField(choices=CATEGORY_CHOICES, max_length=2)
     description = models.CharField(max_length=100)
-    image = models.ImageField(upload_to="media")
+    image = CloudinaryField('image')
     isAvailable = models.BooleanField(default=True)
 
     def __str__(self):

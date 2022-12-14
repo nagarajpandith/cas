@@ -14,6 +14,9 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 import dj_database_url
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
 DATABASE_URL = os.getenv("DATABASE_URL")
 
@@ -37,7 +40,6 @@ ALLOWED_HOSTS = ["cas.up.railway.app", "192.168.0.1", "104.196.232.237", "127.0.
 # Application definition
 
 INSTALLED_APPS = [
-    "whitenoise.runserver_nostatic",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -48,11 +50,11 @@ INSTALLED_APPS = [
     "theme",
     "django_browser_reload",
     "canteen",
+    'cloudinary'
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -130,10 +132,6 @@ STATIC_URL = "static/"
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-if DEBUG:
-    STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
-else:
-    STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = "/media/"
@@ -150,3 +148,9 @@ INTERNAL_IPS = [
 ]
 NPM_BIN_PATH = r"/usr/local/bin/npm"
 CSRF_TRUSTED_ORIGINS = ["https://cas.up.railway.app", "https://*.127.0.0.1"]
+
+cloudinary.config( 
+  cloud_name = os.getenv("CLOUD_NAME"),
+  api_key = os.getenv("API_KEY"),
+  api_secret = os.getenv("API_SECRET")
+)
