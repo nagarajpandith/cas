@@ -132,9 +132,9 @@ pip freeze > requirements.txt
 
 ### Team Members
 
-| <img src = "https://avatars.githubusercontent.com/u/83623339?v=4" width="50px"> | <img src = "https://avatars.githubusercontent.com/u/75678927?v=4" width="50px"> | <img src = "https://avatars.githubusercontent.com/u/120498628?v=4" width="50px"> |
+| <img src = "https://avatars.githubusercontent.com/u/83623339?v=4" width="50px"> | <img src = "https://avatars.githubusercontent.com/u/91735807?v=4" width="50px"> | <img src = "https://avatars.githubusercontent.com/u/120498628?v=4" width="50px"> |
 | :-----------------------------------------------------------------------------: | :-----------------------------------------------------------------------------: | :------------------------------------------------------------------------------: |
-|              [Nagaraj Pandith](https://github.com/nagarajpandith/)              | [Kishor Balgi](<https://github.com/KishorBalgi/](https://github.com/rudra246)>) |                 [Rudradeep Roy](https://github.com/KishorBalgi/)                 |
+|              [Nagaraj Pandith](https://github.com/nagarajpandith/)              | [Nidheesha T](<https://github.com/NidheeshaT/](https://github.com/rudra246)>) |                 [Rudradeep Roy](https://github.com/KishorBalgi/)                 |
 
 #### Attributions
 
