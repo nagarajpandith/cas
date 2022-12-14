@@ -140,3 +140,4 @@ INTERNAL_IPS = [
     "127.0.0.1",
 ]
 NPM_BIN_PATH = r"/usr/local/bin/npm"
+CSRF_TRUSTED_ORIGINS = ['https://cas.up.railway.app','https://*.127.0.0.1']
