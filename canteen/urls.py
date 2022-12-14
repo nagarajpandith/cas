@@ -17,4 +17,7 @@ urlpatterns = [
     path("markCompleted/", views.markCompleted, name="markCompleted"),
     path("billing/<int:tokenNo>", views.billing, name="billing"), 
     path("summary", views.summary, name="summary"), 
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
+
+if settings.DEBUG: # new
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
