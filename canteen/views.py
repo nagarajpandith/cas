@@ -134,6 +134,7 @@ def order(request):
     if request.method == "POST":
         item_ids = request.POST.getlist("item_ids")
         quantities = request.POST.getlist("quantities")
+        quantities=[q for q in quantities if q!='0']
 
         # Generate a new token and check if it is already in use
         token = int(str(uuid.uuid4().int)[:3])
@@ -146,13 +147,10 @@ def order(request):
         for item_id, quantity in zip(item_ids, quantities):
             item = Item.objects.get(itemNo=item_id)
 
-            # Get the queryset of order items with the same item
-            order_items = OrderItem.objects.filter(item=item)
 
             # Update the quantity of the existing order item, or create a new one
-            order_item, created = order_items.update_or_create(
-                defaults={"quantity": quantity}, item=item
-            )
+            order_item =OrderItem(quantity=quantity,item=item)
+            order_item.save()
 
             # Add the order item to the order
             order.items.add(order_item)

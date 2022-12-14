@@ -36,8 +36,8 @@
     <input
       type="number"
       name="quantities"
-      value="1"
-      min="1"
+      value="0"
+      min="0"
       max="{{ item.quantity }}"
     />
     </div>
@@ -54,6 +54,7 @@
   function checkCheckboxes() {
     // Get all checkboxes and the submit button
     var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    var number = document.querySelectorAll('input[type="number"]');
     var submitButton = document.getElementById('submit-button');
 
     // Check if any of the checkboxes are checked
@@ -61,7 +62,11 @@
     for (var i = 0; i < checkboxes.length; i++) {
       if (checkboxes[i].checked) {
         isChecked = true;
-        break;
+        if(number[i].value==='0')
+            number[i].value=1
+      }
+      else{
+            number[i].value=0
       }
     }
 
