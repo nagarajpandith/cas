@@ -138,3 +138,4 @@ secrets.json
 **/migrations/*
 .vscode
 *invoice*
+.DS_Store

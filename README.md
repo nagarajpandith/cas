@@ -61,11 +61,14 @@ python -m pip install django-tailwind
 ```
 
 - Start a postgres database called 'cas' on default port (5432)
-- Create `.env` in root folder and add the following
+- Create `.env` in root folder and add the following (refer [Development Notes](#development-notes))
 
 ```env
-SECRET_KEY=
-DATABASE_URL=
+SECRET_KEY=<django_secret_key>
+DATABASE_URL=<your_database_url>
+API_KEY=<cloudinary_api_key>
+API_SECRET=<cloudinary_api_secret>
+CLOUD_NAME=<cloudinary_cloud_name>
 ```
 
 - Make migrations
@@ -89,6 +92,16 @@ python manage.py tailwind start
 ```
 
 #### Development Notes
+
+- `DATABASE_URL` in `env` is in the form of `postgres://user:pass@host/dbname`
+- `SECRET_KEY` can be generated using `get_random_secret_key()` method
+
+```bash
+from django.core.management.utils import get_random_secret_key
+print(get_random_secret_key())
+```
+
+- Cloudinary related `env` vars can be accessed by signing up on [Cloudinary](https://cloudinary.com/) and opening up the dashboard.
 
 - Modify npm bin path (only if you're using Windows). Currently it is set to `NPM_BIN_PATH = '/usr/local/bin/npm'` for Mac & Linux based systems. If you're using Windows, you need to change it to `NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd"` in settings.py of cas project. Do not stage settings.py while pushing to repo.
 
@@ -134,7 +147,7 @@ pip freeze > requirements.txt
 
 | <img src = "https://avatars.githubusercontent.com/u/83623339?v=4" width="50px"> | <img src = "https://avatars.githubusercontent.com/u/91735807?v=4" width="50px"> | <img src = "https://avatars.githubusercontent.com/u/120498628?v=4" width="50px"> |
 | :-----------------------------------------------------------------------------: | :-----------------------------------------------------------------------------: | :------------------------------------------------------------------------------: |
-|              [Nagaraj Pandith](https://github.com/nagarajpandith/)              | [Nidheesha T](<https://github.com/NidheeshaT/](https://github.com/rudra246)>) |                 [Rudradeep Roy](https://github.com/KishorBalgi/)                 |
+|              [Nagaraj Pandith](https://github.com/nagarajpandith/)              |  [Nidheesha T](<https://github.com/NidheeshaT/](https://github.com/rudra246)>)  |                 [Rudradeep Roy](https://github.com/KishorBalgi/)                 |
 
 #### Attributions
 
